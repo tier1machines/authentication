@@ -1,0 +1,17 @@
+{
+  "name": "authlambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joshua Manto",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.596.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1",
+    "uuid": "^3.3.3"
+  }
+}
