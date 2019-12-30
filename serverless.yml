@@ -1,0 +1,77 @@
+service: auth
+
+custom:
+  secrets: ${file(secrets.json)}
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: us-east-2
+  stage: dev
+  environment:
+    JWT_SECRET: ${self:custom.secrets.JWT_SECRET}
+    DYNAMO_TABLE: ${self:custom.secrets.DYNAMO_TABLE}
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource:
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.secrets.DYNAMO_TABLE}"
+
+functions:
+  verify-token:
+    handler: auth/verifyToken.auth
+
+  register:
+    handler: auth/authHandler.register
+    events:
+      - http:
+          path: register
+          method: post
+          cors: true
+
+  login:
+    handler: auth/authHandler.login
+    events:
+      - http:
+          path: login
+          method: post
+          cors: true
+
+  checker:
+    handler: auth/authHandler.checker
+    events:
+      - http:
+          path: checker
+          method: get
+          cors: true
+          authorizer: verify-token
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: "email"
+            KeyType: HASH
+        # GlobalSecondaryIndexes:
+        #   - IndexName: userIndex
+        #     KeySchema:
+        #       - AttributeName: user_id
+        #         KeyType: HASH
+        #     Projection:
+        #       ProjectionType: ALL
+        #     ProvisionedThroughput:
+        #       ReadCapacityUnits: 1
+        #       WriteCapacityUnits: 1
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.secrets.DYNAMO_TABLE}
