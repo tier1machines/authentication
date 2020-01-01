@@ -36,9 +36,9 @@ async function register(eventBody) {
     .then(user => {
       console.log("user: ", user);
       return {
-        user: params.Item,
+        // user: params.Item,
         auth: true,
-        token: signToken(params.Item.user_id, params.Item.email)
+        token: "Bearer " + signToken(params.Item.user_id, params.Item.email)
       };
     });
 }
