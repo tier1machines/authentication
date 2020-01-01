@@ -38,9 +38,9 @@ async function login(eventBody) {
         console.log("token: ", token);
         if (token) {
           return {
-            user: user,
+            // user: user,
             auth: true,
-            token: token
+            token: "Bearer " + token
           };
         }
       } else Promise.reject(new Error("User with that email does not exist."));
