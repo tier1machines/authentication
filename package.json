@@ -1,7 +1,6 @@
 {
   "name": "authlambda",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,5 +12,15 @@
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^8.5.1",
     "uuid": "^3.3.3"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tier1machines/authentication.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tier1machines/authentication/issues"
+  },
+  "homepage": "https://github.com/tier1machines/authentication#readme",
+  "description": ""
 }
